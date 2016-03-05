@@ -13,9 +13,9 @@ class CreateSeeds extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        foreach (range(1,10) as $index) {
+        foreach (range(1,30) as $index) {
         	DB::table('item')->insert([
-        		'name' => $faker->word,
+        		'name' => $faker->word." ".$faker->word,
         		'review' => $faker->numberBetween(1,10),
         		'price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999)
         	]);

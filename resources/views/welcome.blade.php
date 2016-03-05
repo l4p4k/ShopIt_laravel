@@ -1,7 +1,5 @@
 @extends('layouts.app')
-<?php
-use Faker\Factory as Faker;
-?>
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -10,11 +8,37 @@ use Faker\Factory as Faker;
                 <div class="panel-heading">Welcome</div>
 
                 <div class="panel-body">
-                    Your Application's Landing Page.
-                    <?php
-                    $faker = Faker::create();
-                    echo "<br>Random Number 0 to 999.99 = ".$faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999);
-                    ?>
+                    Welcome to SHOPIT!
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th><a href="<?php Request::root(); ?>/filter/name">Name</a></th> 
+                                <th><a href="<?php Request::root(); ?>/filter/price">Price</a></th>
+                                <th><a href="<?php Request::root(); ?>/filter/review">Review</a></th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    foreach($data as $key => $item) {
+                                        echo "<tr> <td>";
+                                        $str = $item['name'];
+                                        echo wordwrap($str,50,"<br>\n");
+                                        echo "</td> <td>";
+                                        $str = "£".$item['price'];
+                                        echo wordwrap($str,50,"<br>\n");
+                                        echo"</td> <td>";
+                                        echo $item['review']."/10";
+                                        echo "</td> </tr>";
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+
+                        <?php
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>

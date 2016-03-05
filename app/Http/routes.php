@@ -27,14 +27,26 @@
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
-    Route::get('/', function () {
-    	return view('welcome');
-	});
+    Route::get('/', [
+        'uses' => 'IndexController@index',
+        'as' => 'index'
+    ]);
+
+    Route::get('/filter/{name?}', [
+        'uses' => 'IndexController@indexFilter',
+        'as' => 'filter',
+        function ($name = 'name') {
+    }]);
+
+    // Route::get('/{name?}', [
+    //     'uses' => 'IndexController@indexPrice',
+    //     function ($name = 'price') {
+    // }]);
 
     Route::get('about', function () {
     	return view('about');
 	});
 
-    Route::get('/home', 'HomeController@index');
-    Route::get('/about', 'AboutController@index');
+    Route::get('home', 'HomeController@index');
+    Route::get('about', 'AboutController@index');
 });
