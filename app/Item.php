@@ -9,10 +9,10 @@ class Item extends Model
 {
     protected $table = "item";
 
-    public function showAllItems($price){
+    public function showAllItems($filter){
     	$query = DB::table('item')
     		->select('item.*')
-    		->orderBy('item.'.$price)
+    		->orderBy('item.'.$filter)
     		->get();
 
     	foreach ($query as $key => $value) {
