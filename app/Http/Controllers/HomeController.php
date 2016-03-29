@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use Auth;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
@@ -14,7 +16,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // ini_set('xdebug.max_nesting_level', 200);
+        $this->middleware('auth', ['except' => 'about']);
     }
 
     /**
@@ -22,8 +25,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function home()
     {
         return view('home');
+    }
+
+    public function about()
+    {
+        return view('about');
     }
 }

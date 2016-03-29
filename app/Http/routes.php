@@ -25,6 +25,8 @@
 */
 
 Route::group(['middleware' => 'web'], function () {
+
+        ini_set('xdebug.max_nesting_level', 200);
     Route::auth();
 
     Route::get('/', [
@@ -43,10 +45,14 @@ Route::group(['middleware' => 'web'], function () {
     //     function ($name = 'price') {
     // }]);
 
-    Route::get('about', function () {
-    	return view('about');
-	});
+    Route::get('/about', [
+        'uses' => 'HomeController@about',
+        'as' => 'about'
+    ]);
 
-    Route::get('home', 'HomeController@index');
-    Route::get('about', 'AboutController@index');
+    Route::get('/home', [
+        'uses' => 'HomeController@home',
+        'as' => 'home'
+    ]);
+
 });
