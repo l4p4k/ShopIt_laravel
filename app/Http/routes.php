@@ -24,9 +24,10 @@
 |
 */
 
-Route::group(['middleware' => 'web'], function () {
-
-        ini_set('xdebug.max_nesting_level', 200);
+Route::group(['middleware' => 'web'], function () 
+{
+    ini_set('xdebug.max_nesting_level', 200);
+    
     Route::auth();
 
     Route::get('/', [
@@ -34,16 +35,10 @@ Route::group(['middleware' => 'web'], function () {
         'as' => 'index'
     ]);
 
-    Route::get('/filter/{name?}', [
+    Route::post('/', [
         'uses' => 'IndexController@indexFilter',
-        'as' => 'filter',
-        function ($name = 'name') {
-    }]);
-
-    // Route::get('/{name?}', [
-    //     'uses' => 'IndexController@indexPrice',
-    //     function ($name = 'price') {
-    // }]);
+        'as' => 'index.filter'
+    ]);
 
     Route::get('/about', [
         'uses' => 'HomeController@about',

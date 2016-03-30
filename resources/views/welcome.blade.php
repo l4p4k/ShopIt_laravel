@@ -14,9 +14,9 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                <th><a href="<?php Request::root(); ?>/filter/name">Name</a></th> 
-                                <th><a href="<?php Request::root(); ?>/filter/price">Price</a></th>
-                                <th><a href="<?php Request::root(); ?>/filter/review">Review</a></th> 
+                                <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="submit" name="filter" value="Name"></th> </form>
+                                <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="submit" name="filter" value="Price"></th> </form>
+                                <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="submit" name="filter" value="review"></th> </form>
                                 </tr>
                             </thead>
                             <tbody>

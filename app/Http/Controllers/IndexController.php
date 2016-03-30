@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Item as Item;
-use App\Http\Requests;
+// use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
+use Session;
+
+use App\Item as Item;
 
 class IndexController extends Controller
 {
@@ -31,14 +34,10 @@ class IndexController extends Controller
         return view('welcome')->withdata($data);
     }
 
-    public function indexFilter($filter)
+    public function indexFilter(Request $request)
     {
     	$item = new Item();
-    	if(($filter == 'price') OR ($filter == 'name') OR ($filter == 'review')){
-    		$data = $item->showAllItems($filter);
-    	}else{
-    		return $this->index();
-    	}
+		$data = $item->showAllItems($request->input('filter'));
         return view('welcome')->withdata($data);
     }
 }
