@@ -50,4 +50,10 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'home'
     ]);
 
+    Route::get('/item/{item_id}', [
+        'uses' => 'ItemPageController@item_page',
+        'as' => 'item.view',
+        function ($item_id = '1') {
+    }]);
+
 });

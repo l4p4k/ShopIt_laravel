@@ -20,19 +20,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    foreach($data as $key => $item) {
-                                        echo "<tr> <td>";
-                                        $str = $item['name'];
-                                        echo wordwrap($str,50,"<br>\n");
-                                        echo "</td> <td>";
-                                        $str = "£".$item['price'];
-                                        echo wordwrap($str,50,"<br>\n");
-                                        echo"</td> <td>";
-                                        echo $item['review']."/10";
-                                        echo "</td> </tr>";
-                                    }
-                                ?>
+                                @foreach($data as $item)
+                                        <tr> 
+                                            <!-- item name with link to view item -->
+                                            <td>
+                                                 <a href=/item/{{$item->id}}>
+                                                    {{$item->name}}
+                                                </a>
+                                            </td> 
+                                            <!-- Price of item -->
+                                            <td>
+                                                £{{$item->price}}
+                                            </td> 
+                                            <!-- item review out of 10 -->
+                                            <td>
+                                                {{$item->review}}/10
+                                            </td> 
+                                        </tr>
+                                @endforeach
                             </tbody>
                         </table>
 
