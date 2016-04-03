@@ -37,7 +37,14 @@ class IndexController extends Controller
     public function indexFilter(Request $request)
     {
     	$item = new Item();
-		$data = $item->showAllItems($request->input('filter'));
-        return view('welcome')->withdata($data);
+        $filter = $request->input('filter');
+        if($filter != null)
+        {
+		    $data = $item->showAllItems($filter);
+            return view('welcome')->withdata($data);
+        }else{
+            return $this->index();
+        }
+
     }
 }
