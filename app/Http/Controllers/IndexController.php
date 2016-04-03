@@ -19,7 +19,7 @@ class IndexController extends Controller
 	*/
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'indexFilter']]);
+        $this->middleware('auth', ['except' => ['index', 'indexFilter', 'search']]);
     }
 
 	/**
@@ -45,6 +45,11 @@ class IndexController extends Controller
         }else{
             return $this->index();
         }
+    }
 
+    //WIP-- searches for items with that keyword in name --WIP
+    public function search(Request $request)
+    {
+        return $request->input('search')." Searched";
     }
 }

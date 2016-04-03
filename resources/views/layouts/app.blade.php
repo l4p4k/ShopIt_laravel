@@ -40,7 +40,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                    Shop site
                 </a>
             </div>
 
@@ -69,6 +69,29 @@
                         </li>
                     @endif
                 </ul>
+            </div>
+            <div class="navbar-right">
+                <form class="form-inline" role="form" method="POST" action="{{ route('item_search') }}">
+                    {!! csrf_field() !!}
+
+                    <div class="form-group{{ $errors->has('search') ? ' has-error' : '' }}">
+                        <label class="control-label">Search</label>
+
+                        <input type="text" class="form-control" name="search" value="{{ old('search') }}">
+
+                        @if ($errors->has('search'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('search') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </nav>
