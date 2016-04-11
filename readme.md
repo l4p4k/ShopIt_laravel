@@ -1,3 +1,12 @@
+Name: Ebrahim Ravat
+Framework: Laravel
+
+Installation:
+Please go to the project's directory in CMD and use:
+  +php artisan migrate
+  +php artisan db:seed
+  +php artisan serve
+
 # Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
