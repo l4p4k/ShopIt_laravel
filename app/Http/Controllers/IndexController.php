@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 // use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Session;
-
 use App\Item as Item;
+
+use Session;
+use Validator;
+use URL;
+use Auth;
 
 class IndexController extends Controller
 {
@@ -30,7 +33,7 @@ class IndexController extends Controller
 	public function index()
     {
     	$item = new Item();
-    	$data = $item->showAllItems('name');
+    	$data = $item->showAllItems('item_name');
         return view('welcome')->withdata($data);
     }
 
@@ -49,7 +52,32 @@ class IndexController extends Controller
 
     //WIP-- searches for items with that keyword in name --WIP
     public function search(Request $request)
-    {
-        return $request->input('search')." Searched";
+    {   $item = new Item();
+        // Get data
+        $input_data = array(
+            'search'     => $request->input('search')
+        );
+        // Build the validation rules.
+        $rules = array(
+            'search'     => 'string|min:3'
+        );
+
+        // Create a new validator instance.
+        $validator = Validator::make($input_data, $rules);
+
+        if($input_data['search'] == ""){
+            $error = array('search' => "The search key must not be empty");
+            return Redirect::to(URL::previous())->withErrors($error)->withInput();
+        }
+
+         if (($validator->fails())) {
+            return Redirect::to(URL::previous())->withErrors($validator)->withInput();
+        }
+        // If the data passes validation
+        if ($validator->passes()) {
+            $data[0] = $item->search('item_name', $input_data['search']);
+            // var_dump($data);
+            return view('results')->withdata($data);
+        }
     }
 }

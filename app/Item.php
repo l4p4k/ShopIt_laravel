@@ -16,4 +16,14 @@ class Item extends Model
     		->get();
     	return $data;
     }
+
+    public function search($column, $criteria){
+        $query = DB::table('item')
+            ->select('item.*')
+            ->orderBy('item.id', 'DESC')
+            ->where('item.'.$column, 'like','%'.$criteria.'%')
+            ->get();
+
+        return $query;
+    }
 }

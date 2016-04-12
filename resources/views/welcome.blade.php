@@ -25,7 +25,7 @@
                                             <!-- item name with link to view item -->
                                             <td>
                                                  <a href=/item/{{$item->id}}>
-                                                    {{$item->name}}
+                                                    {{$item->item_name}}
                                                 </a>
                                             </td> 
                                             <!-- Price of item -->
