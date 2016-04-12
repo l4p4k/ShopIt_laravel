@@ -18,7 +18,7 @@ class HomeController extends Controller
     {
         // ini_set('xdebug.max_nesting_level', 200);
         $this->middleware('auth', ['except' => 'about']);
-        $this->middleware('admin', ['only' => 'about']);
+        $this->middleware('admin', ['only' => 'admindash']);
     }
 
     /**
@@ -34,5 +34,11 @@ class HomeController extends Controller
     public function about()
     {
         return view('about');
+    }
+
+    public function admindash()
+    {
+        return "Hi admin ".Auth::user()->email;
+        // return view('admindash');
     }
 }

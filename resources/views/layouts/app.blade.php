@@ -64,6 +64,9 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+                                @if(Auth::user()->admin == "1")
+                                <li><a href="{{ url('/admindash') }}"><i class="fa fa-street-view" aria-hidden="true"></i> Admin dashboard</a></li>
+                                @endif
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>

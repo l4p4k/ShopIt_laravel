@@ -48,6 +48,11 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('/about', [
         'uses' => 'HomeController@about',
         'as' => 'about'
+    ]);
+
+    Route::get('/admindash', [
+        'uses' => 'HomeController@admindash',
+        'as' => 'admindash'
     ], ['middleware' => 'admin']);
 
     Route::get('/home', [
