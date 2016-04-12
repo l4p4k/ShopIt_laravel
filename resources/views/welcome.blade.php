@@ -34,7 +34,11 @@
                                             </td> 
                                             <!-- item review out of 10 -->
                                             <td>
+                                                @if(!$item->review == 0)
                                                 {{$item->review}}/10
+                                                @else
+                                                No score
+                                                @endif
                                             </td> 
                                         </tr>
                                 @endforeach

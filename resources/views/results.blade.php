@@ -25,7 +25,13 @@
                                                 <b><a href=/item/{{$item->item_id}}>{{$item->item_name}}</a><b>
                                             </td>
                                             <td class="text-right">
-                                                <p>{{$item->review}}/10</p>
+                                                <p>
+                                                    @if(!$item->review == 0)
+                                                    {{$item->review}}/10
+                                                    @else
+                                                    No score
+                                                    @endif
+                                                </p>
                                             </td>
                                         </tr>
                                     @endforeach
