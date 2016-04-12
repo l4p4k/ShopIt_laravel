@@ -26,8 +26,4 @@ class Items extends Model
 
         return $query;
     }
-
-    public function get_new_item_id(){
-        
-    }
 }

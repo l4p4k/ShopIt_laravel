@@ -25,7 +25,7 @@
                                                 <b><a href=/item/{{$item->item_id}}>{{$item->item_name}}</a><b>
                                             </td>
                                             <td class="text-right">
-                                                <p>{{$item->review}}</p>
+                                                <p>{{$item->review}}/10</p>
                                             </td>
                                         </tr>
                                     @endforeach
