@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+
+
 
 class HomeController extends Controller
 {
@@ -38,7 +39,8 @@ class HomeController extends Controller
 
     public function admindash()
     {
-        return "Hi admin ".Auth::user()->email;
-        // return view('admindash');
+        // return "Hi admin ".Auth::user()->email;
+        return view('admindash');
     }
+
 }

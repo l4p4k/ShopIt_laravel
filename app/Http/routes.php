@@ -55,6 +55,11 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'admindash'
     ], ['middleware' => 'admin']);
 
+    Route::post('/new_item', [
+        'uses' => 'ItemPageController@new_item',
+        'as' => 'new_item'
+    ], ['middleware' => 'admin']);
+
     Route::get('/home', [
         'uses' => 'HomeController@home',
         'as' => 'home'

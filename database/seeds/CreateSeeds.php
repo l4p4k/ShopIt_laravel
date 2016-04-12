@@ -19,6 +19,7 @@ class CreateSeeds extends Seeder
         foreach (range(1,30) as $index) {
         	DB::table('items')->insert([
         		'item_name' => $faker->word." ".$faker->word,
+                'item_image' => "0",
         		'review' => $faker->numberBetween(1,10),
         		'price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999)
         	]);
