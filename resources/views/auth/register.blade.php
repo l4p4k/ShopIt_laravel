@@ -10,15 +10,29 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                         {!! csrf_field() !!}
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Name</label>
+                        <div class="form-group{{ $errors->has('fname') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">First name</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                <input type="text" class="form-control" name="fname" value="{{ old('fname') }}">
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('fname'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('fname') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('sname') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Last name</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="sname" value="{{ old('sname') }}">
+
+                                @if ($errors->has('sname'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('sname') }}</strong>
                                     </span>
                                 @endif
                             </div>

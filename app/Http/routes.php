@@ -48,7 +48,7 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('/about', [
         'uses' => 'HomeController@about',
         'as' => 'about'
-    ]);
+    ], ['middleware' => 'admin']);
 
     Route::get('/home', [
         'uses' => 'HomeController@home',
@@ -60,5 +60,4 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'item.view',
         function ($item_id = '1') {
     }]);
-
 });

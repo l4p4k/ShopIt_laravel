@@ -14,7 +14,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="submit" name="filter" value="Name"></th> </form>
+                                <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="Item_name"><input type="submit" value="Item"></th> </form>
                                 <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="submit" name="filter" value="Price"></th> </form>
                                 <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="submit" name="filter" value="review"></th> </form>
                                 </tr>
@@ -24,7 +24,7 @@
                                         <tr> 
                                             <!-- item name with link to view item -->
                                             <td>
-                                                 <a href=/item/{{$item->id}}>
+                                                 <a href=/item/{{$item->item_id}}>
                                                     {{$item->item_name}}
                                                 </a>
                                             </td> 

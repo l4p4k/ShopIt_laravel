@@ -18,6 +18,7 @@ class HomeController extends Controller
     {
         // ini_set('xdebug.max_nesting_level', 200);
         $this->middleware('auth', ['except' => 'about']);
+        $this->middleware('admin', ['only' => 'about']);
     }
 
     /**
