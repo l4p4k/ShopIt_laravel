@@ -33,7 +33,7 @@ class IndexController extends Controller
 	public function index()
     {
     	$item = new Item();
-    	$data = $item->showAllItems('item_name');
+    	$data = $item->show_all_items('item_name');
         return view('welcome')->withdata($data);
     }
 
@@ -43,7 +43,7 @@ class IndexController extends Controller
         $filter = $request->input('filter');
         if($filter != null)
         {
-		    $data = $item->showAllItems($filter);
+		    $data = $item->show_all_items($filter);
             return view('welcome')->withdata($data);
         }else{
             return $this->index();

@@ -31,10 +31,11 @@ class ItemPageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function item_page()
+    public function item_page($id)
     {
-        return "You can see item details here";
-        // return view('home');
+        $item = new Item();
+        $data = $item->show_item_with_id($id);
+        return view('itemView')->withdata($data);
     }
     public function item_edit()
     {
@@ -68,7 +69,8 @@ class ItemPageController extends Controller
         $item_image = "0";
 
         //check validation
-        if ($validator->fails()) {
+        if ($validator->fails()) 
+        {
         // send back to upload page with errors
         return Redirect::to('admindash')->withInput()->withErrors($validator);
         }
