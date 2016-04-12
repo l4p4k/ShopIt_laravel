@@ -100,7 +100,7 @@ class ItemPageController extends Controller
 
 
             DB::table('items')->insert([
-                ['item_id' => "", 'item_name' => $input['item_name'], 'item_image' => $item_image, 'review' => "0", 'price' => $input['price']]
+                ['item_id' => $new_item_id, 'item_name' => $input['item_name'], 'item_image' => $item_image, 'review' => "0", 'price' => $input['price']]
             ]);
             // sending success message if validation is success
             Session::flash('success', 'Upload successfully'); 
