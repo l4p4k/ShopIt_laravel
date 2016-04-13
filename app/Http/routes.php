@@ -70,4 +70,22 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'item.view',
         function ($item_id = '1') {
     }]);
+
+    Route::get('/mycart', [
+        'uses' => 'HomeController@mycart',
+        'as' => 'cart'
+    ]);
+
+    Route::post('/add_to_cart', [
+        'uses' => 'CartController@add_to_cart',
+        'as' => 'cart.add'
+    ]);
+
+    Route::get('/save_cart', [
+        'uses' => 'CartController@save_cart',
+        'as' => 'cart.save'
+    ]);
+
+
 });
+

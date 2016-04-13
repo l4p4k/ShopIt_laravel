@@ -17,6 +17,7 @@ class CreateItemsTable extends Migration
             $table->string('item_name');
             $table->integer('item_image');
             $table->integer('review');
+            $table->integer('item_quantity');
             $table->decimal('price', 5, 2);
         });
     }

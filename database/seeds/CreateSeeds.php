@@ -21,6 +21,7 @@ class CreateSeeds extends Seeder
         		'item_name' => $faker->word." ".$faker->word,
                 'item_image' => "0",
         		'review' => $faker->numberBetween(1,10),
+                'item_quantity' => $faker->numberBetween(1,40),
         		'price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999)
         	]);
         }

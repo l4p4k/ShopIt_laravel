@@ -6,6 +6,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
+use DB;
+
+use App\Items as Item;
+
 
 
 class HomeController extends Controller
@@ -41,6 +45,13 @@ class HomeController extends Controller
     {
         // return "Hi admin ".Auth::user()->email;
         return view('admindash');
+    }
+
+    public function mycart()
+    {
+        $item = new Item();
+        $data = DB::table('items')->get();
+        return view('mycart')->withdata($data);
     }
 
 }

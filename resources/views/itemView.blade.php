@@ -22,6 +22,28 @@
                         -- No score --
                         @endif
                     </p>
+                    <form class="form-inline" role="form" method="post" action="{{ url('/add_to_cart') }}">
+                        {!! csrf_field() !!}
+                        <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
+                            <label class="control-label">Quantity</label>
+
+                            <input type="text" class="form-control" name="quantity" value="{{ old('quantity') }}">
+
+                            @if ($errors->has('quantity'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('quantity') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <input type="hidden" name="item_id" value="{{$data->item_id}}">
+
+                        <div class="form-group">
+                            <button type="submit" class="btn">
+                                <i class="fa fa-shopping-basket" aria-hidden="true"></i> Add to cart
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
             @else

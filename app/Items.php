@@ -2,6 +2,7 @@
 
 namespace App;
 use DB;
+use Session;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +14,7 @@ class Items extends Model
     	$data = $query = DB::table('items')
     		->select('*')
     		->orderBy($filter)
-    		->get();
+    		->paginate(10);
     	return $data;
     }
 
@@ -32,6 +33,19 @@ class Items extends Model
             ->where($column, 'like','%'.$criteria.'%')
             ->get();
 
-        return $query;
+        $num_on_page = 5;
+        if(count($query) > $num_on_page){
+            $query_page = DB::table('items')
+            ->select('*')
+            ->orderBy('item_id', 'DESC')
+            ->where($column, 'like','%'.$criteria.'%')
+            ->paginate($num_on_page);
+
+            //second param is if results should be paged or not
+            return [$query_page,'1'];
+        }elseif(count($query) < $num_on_page+1){
+            return [$query,'0'];
+        }
+
     }
 }
