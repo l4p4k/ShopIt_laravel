@@ -10,6 +10,7 @@ use Validator;
 use Auth;
 use DB;
 use Session;
+use PDF;
 
 
 class CartController extends Controller
@@ -75,14 +76,21 @@ class CartController extends Controller
     }    
 
     public function checkout(){
-        return $this->generateRandomString(30);
+        $pdf = PDF::loadHTML('<h3>Transaction id: '.$this->generateRandomString(30).'</h3>');
+        Session::forget('cart');
+        return $pdf->stream();
     }
 
-    public function generateRandomString($length = 10) {
+    /**
+    *   Create randomised transaction id
+    */
+    public function generateRandomString() {
+        //character set
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
+        $randomString .= "SHOPIT";
+        for ($i = 0; $i < 10; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
