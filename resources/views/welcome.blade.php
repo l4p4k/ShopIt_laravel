@@ -9,7 +9,6 @@
 
                 <div class="panel-body">
                     Welcome to SHOPIT!
-
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -45,8 +44,7 @@
                             </tbody>
                         </table>
 
-                        <?php
-                        ?>
+                    {{ $data->links() }}
                     </div>
                 </div>
             </div>

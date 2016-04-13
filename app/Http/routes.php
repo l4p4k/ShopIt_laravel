@@ -40,7 +40,7 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'index.filter'
     ]);
 
-    Route::post('/item_search', [
+    Route::get('/item_search', [
         'uses' => 'IndexController@search',
         'as' => 'item_search'
     ]);

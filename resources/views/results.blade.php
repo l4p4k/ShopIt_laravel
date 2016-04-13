@@ -18,8 +18,7 @@
                                     </tr>
                                 </thead> 
                                 <tbody>
-                                    @foreach($data as $data_item)
-                                    @foreach($data_item as $item)
+                                    @foreach($data as $item)
                                         <tr> 
                                             <td>
                                                 <b><a href=/item/{{$item->item_id}}>{{$item->item_name}}</a><b>
@@ -35,9 +34,12 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    @endforeach
                                 </tbody>
                             </table>
+                            <!-- check if results should be paged -->
+                            @if($paged)
+                                {{ $data->appends(Request::except('page'))->links() }}
+                            @endif
                         </div>
                     @else
                     No posts were found with that keyword

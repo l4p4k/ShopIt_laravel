@@ -60,7 +60,7 @@ class IndexController extends Controller
         );
         // Build the validation rules.
         $rules = array(
-            'search'     => 'string|min:3'
+            'search'     => 'string|min:1'
         );
 
         // Create a new validator instance.
@@ -75,10 +75,13 @@ class IndexController extends Controller
             return Redirect::to('home')->withErrors($validator)->withInput();
         }
         // If the data passes validation
-        if ($validator->passes()) {
-            $data[0] = $item->search('item_name', $input_data['search']);
+        if ($validator->passes()) 
+        {
+            $data = $item->search('review', $input_data['search']);
             // var_dump($data);
-            return view('results')->withdata($data);
+            return view('results')
+            ->with('data', $data[0])
+            ->with('paged', $data[1]);
         }
     }
 }

@@ -74,8 +74,7 @@
                 </ul>
             </div>
             <div class="navbar-right">
-                <form class="form-inline" role="form" method="POST" action="{{ route('item_search') }}">
-                    {!! csrf_field() !!}
+                <form class="form-inline" role="form" method="GET" action="{{ route('item_search') }}">
 
                     <div class="form-group{{ $errors->has('search') ? ' has-error' : '' }}">
                         <label class="control-label">Search</label>
