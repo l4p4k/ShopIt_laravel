@@ -12,6 +12,7 @@ use DB;
 use Session;
 use PDF;
 
+use App\Items as Item;
 
 class CartController extends Controller
 {
@@ -24,6 +25,34 @@ class CartController extends Controller
     public function __construct()
     {
     	$this->middleware('auth', ['except' => 'add_to_cart']);
+    }
+
+    public function mycart()
+    {
+        $data = $this->getCart();
+        return view('mycart')->withdata($data);
+    }
+
+    /**
+    * Get current cart items from database
+    * @return cart details
+    */
+    public function getCart()
+    {
+        $data = null;
+        $item = new Item();
+        if(Session::has('cart'))
+        {
+            foreach(Session::get('cart') as $cart_item)
+            {
+                $item_id = $cart_item['0']; 
+                $item_data = Item::where('item_id', '=', $item_id)->first();
+
+                $data[] = $item_data;
+            }
+        }else{
+        }
+        return $data;
     }
 
     public function add_to_cart(Request $request)
@@ -57,12 +86,19 @@ class CartController extends Controller
     		$cart = session('cart');
     		//remove element from index
     		unset($cart[$item_id]);
-    		//reset index
-    		$new_cart = array_values($cart);
+    		//reset index if cart exists
+            if(isset($cart))
+            {
+                //make new cart with old values
+    		    $new_cart = array_values($cart);
 
-    		//remove old array and insert new one to session
-    		Session::forget('cart');
-    		Session::put('cart', $new_cart);
+                //remove old array and insert new one to session
+                Session::forget('cart');
+                Session::put('cart', $new_cart);
+            }else
+            {
+                Session::forget('cart');
+            }
 
 		}else{
 		}
@@ -75,22 +111,29 @@ class CartController extends Controller
         return Redirect::to('mycart');
     }    
 
-    public function checkout(){
-        $pdf = PDF::loadHTML('<h3>Transaction id: '.$this->generateRandomString(30).'</h3>');
-        Session::forget('cart');
+    public function checkout()
+    {
+        $data = [
+            'code' => $this->generateRandomString(),
+            'cart_details' => $this->getCart()
+        ];
+        $pdf = PDF::loadView('receipt', $data);
+        // Session::forget('cart');
         return $pdf->stream();
     }
 
     /**
     *   Create randomised transaction id
     */
-    public function generateRandomString() {
+    public function generateRandomString() 
+    {
         //character set
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
         $randomString .= "SHOPIT";
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) 
+        {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;

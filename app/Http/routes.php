@@ -72,7 +72,7 @@ Route::group(['middleware' => 'web'], function ()
     }]);
 
     Route::get('/mycart', [
-        'uses' => 'HomeController@mycart',
+        'uses' => 'CartController@mycart',
         'as' => 'cart'
     ]);
 
