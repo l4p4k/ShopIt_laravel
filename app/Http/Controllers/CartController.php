@@ -49,8 +49,9 @@ class CartController extends Controller
         return Redirect::to('mycart');
     }
 
-    public function save_cart()
+    public function delete_cart()
     {
+    	Session::forget('cart');
         return Redirect::to('mycart');
     }    
 }

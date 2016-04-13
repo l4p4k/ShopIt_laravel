@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 use DB;
+use Session;
 
 use App\Items as Item;
 
@@ -50,7 +51,23 @@ class HomeController extends Controller
     public function mycart()
     {
         $item = new Item();
-        $data = DB::table('items')->get();
+        // $data = DB::table('items')->get();
+
+
+        if(Session::has('cart'))
+        {
+            foreach(Session::get('cart') as $cart_item)
+            {
+                $item_id = $cart_item['0']; 
+                $key = Item::where('item_id', '=', $item_id)->first();
+
+                $data[] = $key;
+            }
+            // var_dump($data);
+            // var_dump(Session::get('cart'));
+        }else{
+            $data = null;
+        }
         return view('mycart')->withdata($data);
     }
 
