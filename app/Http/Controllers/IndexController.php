@@ -68,11 +68,11 @@ class IndexController extends Controller
 
         if($input_data['search'] == ""){
             $error = array('search' => "The search key must not be empty");
-            return Redirect::to('home')->withErrors($error)->withInput();
+            return Redirect::to('profile')->withErrors($error)->withInput();
         }
 
          if (($validator->fails())) {
-            return Redirect::to('home')->withErrors($validator)->withInput();
+            return Redirect::to('profile')->withErrors($validator)->withInput();
         }
         // If the data passes validation
         if ($validator->passes()) 

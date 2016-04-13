@@ -49,9 +49,42 @@ class CartController extends Controller
         return Redirect::to('mycart');
     }
 
+    public function cart_delete_item($item_id)
+    {
+    	if (Session::has('cart')) 
+    	{
+    		$cart = session('cart');
+    		//remove element from index
+    		unset($cart[$item_id]);
+    		//reset index
+    		$new_cart = array_values($cart);
+
+    		//remove old array and insert new one to session
+    		Session::forget('cart');
+    		Session::put('cart', $new_cart);
+
+		}else{
+		}
+        return Redirect::to('mycart');
+    }
+
     public function delete_cart()
     {
     	Session::forget('cart');
         return Redirect::to('mycart');
     }    
+
+    public function checkout(){
+        return $this->generateRandomString(30);
+    }
+
+    public function generateRandomString($length = 10) {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
 }

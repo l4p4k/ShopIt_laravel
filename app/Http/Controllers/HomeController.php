@@ -32,9 +32,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function home()
+    public function profile()
     {
-        return view('home');
+        return view('profile');
     }
 
     public function about()
@@ -63,11 +63,10 @@ class HomeController extends Controller
 
                 $data[] = $key;
             }
-            // var_dump($data);
-            // var_dump(Session::get('cart'));
         }else{
             $data = null;
         }
+        // var_dump(Session::get('cart'));
         return view('mycart')->withdata($data);
     }
 

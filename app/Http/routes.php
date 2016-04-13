@@ -50,6 +50,11 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'about'
     ]);
 
+    Route::get('/profile', [
+        'uses' => 'HomeController@profile',
+        'as' => 'profile'
+    ]);
+
     Route::get('/admindash', [
         'uses' => 'HomeController@admindash',
         'as' => 'admindash'
@@ -59,11 +64,6 @@ Route::group(['middleware' => 'web'], function ()
         'uses' => 'ItemPageController@new_item',
         'as' => 'new_item'
     ], ['middleware' => 'admin']);
-
-    Route::get('/home', [
-        'uses' => 'HomeController@home',
-        'as' => 'home'
-    ]);
 
     Route::get('/item/{item_id}', [
         'uses' => 'ItemPageController@item_page',
@@ -79,6 +79,17 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('/delete_cart', [
         'uses' => 'CartController@delete_cart',
         'as' => 'cart.delete'
+    ]);
+
+    Route::get('/cart_delete_item/{item_id}', [
+        'uses' => 'CartController@cart_delete_item',
+        'as' => 'cart.delete_item',
+        function ($item_id = '1') {
+    }]);
+
+    Route::get('/checkout', [
+        'uses' => 'CartController@checkout',
+        'as' => 'cart.checkout'
     ]);
 
     Route::post('/add_to_cart', [
