@@ -36,18 +36,13 @@ class Items extends Model
 
         $num_on_page = 5;
         $search_result = count($query);
-        if($search_result > $num_on_page){
-            $query_page = DB::table('items')
-            ->select('*')
-            ->orderBy('review', 'DESC')
-            ->where($column, 'like','%'.$criteria.'%')
-            ->paginate($num_on_page);
+        $query_page = DB::table('items')
+        ->select('*')
+        ->orderBy('review', 'DESC')
+        ->where($column, 'like','%'.$criteria.'%')
+        ->paginate($num_on_page);
 
-            //second param is if results should be paged or not
-            return [$query_page,'1', $search_result];
-        }elseif($search_result < $num_on_page+1){
-            return [$query,'0', $search_result];
-        }
+        return [$query_page, $search_result];
 
     }
 }

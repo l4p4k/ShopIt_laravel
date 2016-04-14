@@ -31,13 +31,8 @@ Route::group(['middleware' => 'web'], function ()
     Route::auth();
 
     Route::get('/', [
-        'uses' => 'IndexController@index',
-        'as' => 'index'
-    ]);
-
-    Route::post('/', [
         'uses' => 'IndexController@indexFilter',
-        'as' => 'index.filter'
+        'as' => 'index'
     ]);
 
     Route::get('/item_search', [

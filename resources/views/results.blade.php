@@ -5,11 +5,10 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Welcome</div>
+                <div class="panel-heading">{{$result_count}} results found</div>
 
                 <div class="panel-body">
                     @if($data != null)
-                    {{$result_count}} results found
                         <div class="table-responsive">
                             <table class="table" style="width:100%">
                                 <thead>
@@ -37,10 +36,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <!-- check if results should be paged -->
-                            @if($paged)
-                                {{ $data->appends(Request::except('page'))->links() }}
-                            @endif
+                            <!-- make links to go to other pages -->
+                            {{ $data->appends(Request::except('page'))->render() }}
                         </div>
                     @else
                     No posts were found with that keyword

@@ -79,12 +79,11 @@ class IndexController extends Controller
         if ($validator->passes()) 
         {
             $data = $item->search('item_name', $input_data['search']);
-            $result_count = count($data);
+            $result_count = count($data[0]);
             // var_dump($data);
             return view('results')
             ->with('data', $data[0])
-            ->with('paged', $data[1])
-            ->with('result_count', $data[2]);
+            ->with('result_count', $data[1]);
         }
     }
 }

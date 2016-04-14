@@ -13,13 +13,13 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="item_name"><input type="hidden" name="order" value="asc"><input type="submit" value="Asc Item name"></form></td>
-                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="item_name"><input type="hidden" name="order" value="desc"><input type="submit" value="Desc Item name"></form></td>
+                                <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="item_name"><input type="hidden" name="order" value="asc"><input type="submit" value="Asc Item name"></form></td>
+                                <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="item_name"><input type="hidden" name="order" value="desc"><input type="submit" value="Desc Item name"></form></td>
                             </tr><tr>
-                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="price"><input type="hidden" name="order" value="asc"><input type="submit" value="Lowest price"></form></td>
-                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="price"><input type="hidden" name="order" value="desc"><input type="submit" value="Highest price"></form></td>
+                                <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="price"><input type="hidden" name="order" value="asc"><input type="submit" value="Lowest price"></form></td>
+                                <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="price"><input type="hidden" name="order" value="desc"><input type="submit" value="Highest price"></form></td>
                             </tr><tr>
-                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="review"><input type="hidden" name="order" value="desc"><input type="submit" value="Best review"></form></td>
+                                <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="review"><input type="hidden" name="order" value="desc"><input type="submit" value="Best review"></form></td>
                             </tr>
                         </tbody>
                     </table>
@@ -66,7 +66,7 @@
                             </tbody>
                         </table>
 
-                    {{ $data->links() }}
+                    {{ $data->appends(Request::except('page'))->render() }}
                     </div>
                 </div>
             </div>
