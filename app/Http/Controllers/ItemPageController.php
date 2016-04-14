@@ -58,7 +58,7 @@ class ItemPageController extends Controller
         //set rules
         $rules = array(
             'item_name' => 'required|string|max:255|min:2',
-            'price'     => 'required|numeric|max:9999|min:0',
+            'price'     => 'required|numeric|max:9999.99|min:0.1',
             'image' => 'mimes:jpeg,bmp,png|max:20000',
         );
 
@@ -107,5 +107,29 @@ class ItemPageController extends Controller
             return Redirect::to('admindash');
 
         }//end of validator check
+    }
+
+    public function item_delete($item_id)
+    {
+        $item = new Item();
+
+        if(Auth::user()->admin == "1")
+        {
+            $item->delete($item_id);
+        }
+        $postDetails = $item->showPost($id);
+        if($postDetails != null){
+            if($postDetails->user_id == Auth::user()->id){
+                $post = new Post();
+                $post->deletePost($id);
+            }else{
+                $data = "This isn't your post to delete";
+                return view('error')->withdata($data);
+            }
+        }else{
+            return redirect()->route('deleteError');
+        }
+        //takes you to the previous page
+        return Redirect::to(URL::previous());
     }
 }

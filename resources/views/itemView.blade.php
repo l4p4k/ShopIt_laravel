@@ -46,6 +46,9 @@
                     </form>
                 </div>
             </div>
+            @if(Auth::user()->admin == 1)
+                <a href='/item_delete/{{$data->item_id}}' class='btn btn-danger'>Delete item</a>
+            @endif
             @else
             <!-- WIP: Make an error route to redirect to -->
             <h1>ERROR</h1>

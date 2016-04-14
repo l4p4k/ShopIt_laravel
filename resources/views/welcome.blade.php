@@ -9,37 +9,59 @@
 
                 <div class="panel-body">
                     Welcome to SHOPIT!
+                    <p>Sort:</p>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="item_name"><input type="hidden" name="order" value="asc"><input type="submit" value="Asc Item name"></form></td>
+                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="item_name"><input type="hidden" name="order" value="desc"><input type="submit" value="Desc Item name"></form></td>
+                            </tr><tr>
+                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="price"><input type="hidden" name="order" value="asc"><input type="submit" value="Lowest price"></form></td>
+                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="price"><input type="hidden" name="order" value="desc"><input type="submit" value="Highest price"></form></td>
+                            </tr><tr>
+                                <td><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="review"><input type="hidden" name="order" value="desc"><input type="submit" value="Best review"></form></td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="hidden" name="filter" value="Item_name"><input type="submit" value="Item"></th> </form>
-                                <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="submit" name="filter" value="Price"></th> </form>
-                                <th><form method="POST" action="{{ route('index') }}"> {!! csrf_field() !!}<input type="submit" name="filter" value="review"></th> </form>
+                                    <th></th>
+                                    <th>Item</th> 
+                                    <th>Price</th> 
+                                    <th>Review</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($data as $item)
-                                        <tr> 
-                                            <!-- item name with link to view item -->
-                                            <td>
-                                                 <a href=/item/{{$item->item_id}}>
-                                                    {{$item->item_name}}
-                                                </a>
-                                            </td> 
-                                            <!-- Price of item -->
-                                            <td>
-                                                £{{$item->price}}
-                                            </td> 
-                                            <!-- item review out of 10 -->
-                                            <td>
-                                                @if(!$item->review == 0)
-                                                {{$item->review}}/10
-                                                @else
-                                                No score
-                                                @endif
-                                            </td> 
-                                        </tr>
+                                    <tr> 
+                                        <td>
+                                            @if($item->item_image)
+                                                <img src="/uploads/{{$item->item_id}}.png" alt="no image" width="100" height="100">
+                                            @else
+                                                <img src="/site_images/no image.png" alt="no image" width="100" height="100">
+                                            @endif
+                                        </td>
+                                        <!-- item name with link to view item -->
+                                        <td>
+                                             <a href=/item/{{$item->item_id}}>
+                                                {{$item->item_name}}
+                                            </a>
+                                        </td> 
+                                        <!-- Price of item -->
+                                        <td>
+                                            £{{$item->price}}
+                                        </td> 
+                                        <!-- item review out of 10 -->
+                                        <td>
+                                            @if(!$item->review == 0)
+                                            {{$item->review}}/10
+                                            @else
+                                            No score
+                                            @endif
+                                        </td> 
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

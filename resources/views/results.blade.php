@@ -9,6 +9,7 @@
 
                 <div class="panel-body">
                     @if($data != null)
+                    {{$result_count}} results found
                         <div class="table-responsive">
                             <table class="table" style="width:100%">
                                 <thead>

@@ -68,7 +68,13 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('/item/{item_id}', [
         'uses' => 'ItemPageController@item_page',
         'as' => 'item.view',
-        function ($item_id = '1') {
+        function ($item_id = '0') {
+    }]);
+
+    Route::get('/item_delete/{item_id}', [
+        'uses' => 'ItemPageController@item_delete',
+        'as' => 'item.delete',
+        function ($item_id = '0') {
     }]);
 
     Route::get('/mycart', [
@@ -84,7 +90,7 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('/cart_delete_item/{item_id}', [
         'uses' => 'CartController@cart_delete_item',
         'as' => 'cart.delete_item',
-        function ($item_id = '1') {
+        function ($item_id = '0') {
     }]);
 
     Route::get('/checkout', [

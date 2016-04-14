@@ -34,7 +34,7 @@ class IndexController extends Controller
 	public function index()
     {
     	$item = new Item();
-    	$data = $item->show_all_items('item_id');
+    	$data = $item->show_all_items('item_id', 'asc');
         return view('welcome')->withdata($data);
     }
 
@@ -42,9 +42,10 @@ class IndexController extends Controller
     {
     	$item = new Item();
         $filter = $request->input('filter');
-        if($filter != null)
+        $order = $request->input('order');
+        if($filter != null && $order != null)
         {
-		    $data = $item->show_all_items($filter);
+		    $data = $item->show_all_items($filter, $order);
             return view('welcome')->withdata($data);
         }else{
             return $this->index();
@@ -77,11 +78,13 @@ class IndexController extends Controller
         // If the data passes validation
         if ($validator->passes()) 
         {
-            $data = $item->search('review', $input_data['search']);
+            $data = $item->search('item_name', $input_data['search']);
+            $result_count = count($data);
             // var_dump($data);
             return view('results')
             ->with('data', $data[0])
-            ->with('paged', $data[1]);
+            ->with('paged', $data[1])
+            ->with('result_count', $data[2]);
         }
     }
 }
