@@ -12,8 +12,9 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Styles -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
     <style>
@@ -79,9 +80,9 @@
                 <form class="form-inline" role="form" method="GET" action="{{ route('item_search') }}">
 
                     <div class="form-group{{ $errors->has('search') ? ' has-error' : '' }}">
-                        <label class="control-label">Search</label>
+                        <label class="control-label white_text">Search</label>
 
-                        <input type="text" class="form-control" name="search" value="{{ old('search') }}">
+                        <input type="text" class="form-control" name="search" value="{{ old('search') }}" placeholder="Search for an item">
 
                         @if ($errors->has('search'))
                             <span class="help-block">
