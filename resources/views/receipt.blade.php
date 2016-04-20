@@ -19,10 +19,9 @@ p,h1 {
 @foreach($cart_details as $key => $cart_item)
     <p>+ {{$cart_item->item_name}}
     <?php 
-    $cart = Session::get('cart');
-    $quantity = $cart[$key]['1'];
-    ?> =
-
+    $quantity = $my_cart[$key]['1'];
+    ?> 
+    =
     <!-- get price and total -->
     <?php 
     $row_total = $cart_item->price*$quantity; 

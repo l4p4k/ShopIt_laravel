@@ -40,7 +40,7 @@ class CartController extends Controller
     */
     public function getCart()
     {
-        $data = null;
+        $item_from_db = null;
         $item = new Item();
         if(Session::has('cart'))
         {
@@ -49,11 +49,11 @@ class CartController extends Controller
                 $item_id = $cart_item['0']; 
                 $item_data = Item::where('id', '=', $item_id)->first();
 
-                $data[] = $item_data;
+                $item_from_db[] = $item_data;
             }
         }else{
         }
-        return $data;
+        return $item_from_db;
     }
 
     public function add_to_cart(Request $request)
@@ -61,15 +61,6 @@ class CartController extends Controller
 
         $item_id = $request->input('item_id');
         $quantity = $request->input('quantity');
-
-        // //check if there is enough quantity of items
-        // $item_info = $item::where('items.id', '=', $item_id)->first();
-        // if($item_info->item_quantity == 0)
-        // {  
-        //     Session::flash('error', '');
-        //     return Redirect::to('mycart');
-        // }
-
 
     	//if cart exists in session
     	if (Session::has('cart')) 
@@ -85,14 +76,7 @@ class CartController extends Controller
 			var_dump($cart);
     		Session::put('cart', $cart);
 		}
-        $item = new Item();
-        //get item
-        $item_info = $item::where('items.id', '=', $item_id)->first();
-        //take away 1 from quantity
-        $item_info->item_quantity = ($item_info->item_quantity)-$quantity;
-        //save details
-        $item_info->save();
-        return Redirect::to(URL::previous());
+        return Redirect::to('mycart');
     }
 
     public function cart_delete_item($item_id)
@@ -112,15 +96,6 @@ class CartController extends Controller
                 //remove old array and insert new one to session
                 Session::forget('cart');
                 Session::put('cart', $new_cart);
-
-                //add item back (from when it decremented when added to cart)
-                $item = new Item();
-                //get item
-                $item_info = $item::where('items.id', '=', $cart_item[0])->first();
-                //add same number of items you added to cart
-                $item_info->item_quantity = ($item_info->item_quantity)+$cart_item[1];
-                //save details
-                $item_info->save();
             }else
             {
                 Session::forget('cart');
@@ -139,12 +114,38 @@ class CartController extends Controller
 
     public function checkout()
     {
+        if(Session::has('cart'))
+        {
+            $my_cart = Session::get('cart');
+        }else
+        {
+            $my_cart = null;
+        }
         $data = [
             'code' => $this->generateRandomString(),
-            'cart_details' => $this->getCart()
+            'cart_details' => $this->getCart(),
+            'my_cart' => $my_cart
         ];
+
+        $item = new Item();
+        if($data != null)
+        {
+            foreach ($data['cart_details'] as $key => $item) 
+            {
+                //get 1 item from cart (find from database)
+                $item_info = $item::where('items.id', '=', $item->id)->first();
+                //get quantity bought of that item
+                $cart = Session::get('cart');
+                $quantity = $my_cart[$key]['1'];
+                //take away from quantity the amount you bought
+                $item_info->item_quantity = ($item_info->item_quantity)-$quantity;
+                //save details
+                $item_info->save();
+            }
+        }
+
         $pdf = PDF::loadView('receipt', $data);
-        // Session::forget('cart');
+        Session::forget('cart');
         return $pdf->stream();
     }
 
