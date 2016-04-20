@@ -60,6 +60,16 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'new_item'
     ], ['middleware' => 'admin']);
 
+    Route::post('/change_item', [
+        'uses' => 'ItemPageController@change_item',
+        'as' => 'change_item'
+    ], ['middleware' => 'admin']);
+
+    Route::post('/add_stock', [
+        'uses' => 'ItemPageController@add_stock',
+        'as' => 'add_stock'
+    ], ['middleware' => 'admin']);
+
     Route::get('/item/{item_id}', [
         'uses' => 'ItemPageController@item_page',
         'as' => 'item.view',

@@ -34,7 +34,7 @@ class IndexController extends Controller
 	public function index()
     {
     	$item = new Item();
-    	$data = $item->show_all_items('item_id', 'asc');
+    	$data = $item->show_all_items('id', 'asc');
         return view('welcome')->withdata($data);
     }
 

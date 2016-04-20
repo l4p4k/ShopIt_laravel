@@ -38,14 +38,14 @@
                                     <tr> 
                                         <td>
                                             @if($item->item_image)
-                                                <img src="/uploads/{{$item->item_id}}.png" alt="no image" width="100" height="100">
+                                                <img src="/uploads/{{$item->id}}.png" alt="no image" width="100" height="100">
                                             @else
                                                 <img src="/site_images/no image.png" alt="no image" width="100" height="100">
                                             @endif
                                         </td>
                                         <!-- item name with link to view item -->
                                         <td>
-                                             <a href=/item/{{$item->item_id}}>
+                                             <a href=/item/{{$item->id}}>
                                                 {{$item->item_name}}
                                             </a>
                                         </td> 

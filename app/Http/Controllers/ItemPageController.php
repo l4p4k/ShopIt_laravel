@@ -9,6 +9,7 @@ use Validator;
 use Auth;
 use DB;
 use Session;
+use URL;
 
 use Illuminate\Support\Facades\Input as Input;
 use App\Items as Item;
@@ -37,18 +38,158 @@ class ItemPageController extends Controller
         $data = $item->show_item_with_id($id);
         return view('itemView')->withdata($data);
     }
-    public function item_edit()
+
+    public function add_stock(Request $request)
     {
-        return "Admins edit this item here";
+        $item = new Item();
+
+        //get data from post
+        $input = array(
+            'quantity' => $request->input('quantity'),
+            'item_id' => $request->input('item_id')
+        );
+        //set rules
+        $rules = array(
+            'quantity' => 'required|integer|max:9999|min:1',
+        );
+        //make validator
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) 
+        {
+            // send back to upload page with errors
+            return Redirect::to(URL::previous())->withInput()->withErrors($validator);
+        }else 
+        {//validator has no errors
+            //get item
+            $item_info = $item::where('items.id', '=', $input['item_id'])->first();
+
+            //check if anything has changed
+            //if yes, change the details on the database
+            if($input['quantity'] != $item_info->item_quantity){
+                $item_info->item_quantity = $input['quantity'];   
+            }
+
+            //save details
+            $item_info->save();
+            // sending success message if validation is success
+            Session::flash('success', 'Stock added successfully'); 
+            return Redirect::to(URL::previous());
+        }//end of validator check
+    }
+
+    public function change_item(Request $request)
+    {
+        $item = new Item();
+        $change_type = $request->input('change_type');
+
+        //if image needs changing
+        if($change_type == "image"){
+            //get image data from post
+            $input = array(
+                'image' => Input::file('image'),
+                'item_id' => $request->input('item_id')
+            );
+            //set rules
+            $rules = array(
+                'image' => 'mimes:jpeg,bmp,png|max:20000',
+            );
+            //make validator
+            $validator = Validator::make($input, $rules);
+            //set item_image to 0 as default, meaning the item has no image until validation succeeds
+            $item_image = "0";
+
+            //check validation
+            if ($validator->fails()) 
+            {
+                // send back to upload page with errors
+                return Redirect::to(URL::previous())->withInput()->withErrors($validator);
+            }else 
+            {//validator has no errors
+
+                //if image was uploaded
+                if (Input::hasFile('image'))
+                {
+                    //check if image is valid
+                    if (Input::file('image')->isValid()) 
+                    {
+                        $image_destination = "uploads";
+                        $image_extension = "png";
+                        $image_new_name = $input['item_id'].".".$image_extension;
+                        $file = Input::file('image');
+                        $file->move($image_destination, $image_new_name);
+
+                        //image has been uploaded
+                        $item_image = "1";
+                    }else 
+                    {
+                        // sending back with error message.
+                        Session::flash('error', 'uploaded file is not valid');
+                        return Redirect::to(URL::previous());
+                    }
+                }
+                //get item
+                $item_info = $item::where('items.id', '=', $input['item_id'])->first();
+
+                if($item_image != $item_info->item_image){ 
+                    $item_info->item_image = $item_image;          
+                }
+                $item_info->save();
+                // sending success message if validation is success
+                Session::flash('success', 'Updated image successfully'); 
+                return Redirect::to(URL::previous());
+            }//end of validator check
+
+        //else details need changing
+        }elseif($change_type == "details"){
+            //get name and price data from post
+            $input = array(
+                'item_name' => $request->input('item_name'),
+                'price' => $request->input('price'),
+                'item_id' => $request->input('item_id')
+            );
+            //set rules
+            $rules = array(
+                'item_name' => 'required|string|max:255|min:2',
+                'price'     => 'required|numeric|max:9999.99|min:0.1',
+            );
+            //make validator
+            $validator = Validator::make($input, $rules);
+            
+           //check validation
+            if ($validator->fails()) 
+            {
+                // send back to upload page with errors
+                return Redirect::to(URL::previous())->withInput()->withErrors($validator);
+            }else 
+            {//validator has no errors
+                //get item
+                $item_info = $item::where('items.id', '=', $input['item_id'])->first();
+
+                //check if anything has changed
+                //if yes, change the details on the database
+                if($input['item_name'] != $item_info->item_name){
+                    $item_info->item_name = $input['item_name'];   
+                }
+
+                if($input['price'] != $item_info->price){ 
+                    $item_info->price = $input['price'];          
+                }
+                //save details
+                $item_info->save();
+                // sending success message if validation is success
+                Session::flash('success', 'Details updated successfully'); 
+                return Redirect::to(URL::previous());
+            }//end of validator check
+        }
     }
 
     public function new_item(Request $request)
     {
         $item = new Item();
         //get new item id
-        $new_item_id = DB::table('items')->orderBy('item_id', 'desc')->first()->item_id + 1;
+        $new_item_id = DB::table('items')->orderBy('id', 'desc')->first()->id + 1;
 
-        //get image
+        //get data from post
         $input = array(
             'item_name' => $request->input('item_name'),
             'price' => $request->input('price'),
@@ -71,10 +212,10 @@ class ItemPageController extends Controller
         //check validation
         if ($validator->fails()) 
         {
-        // send back to upload page with errors
-        return Redirect::to('admindash')->withInput()->withErrors($validator);
-        }
-        else {//validator has no errors
+            // send back to upload page with errors
+            return Redirect::to('admindash')->withInput()->withErrors($validator);
+        }else 
+        {//validator has no errors
 
             //if image was uploaded
             if (Input::hasFile('image'))
@@ -90,8 +231,8 @@ class ItemPageController extends Controller
 
                     //image has been uploaded
                     $item_image = "1";
-                }
-                else {
+                }else
+                {
                     // sending back with error message.
                     Session::flash('error', 'uploaded file is not valid');
                     return Redirect::to('admindash');
@@ -100,7 +241,7 @@ class ItemPageController extends Controller
 
 
             DB::table('items')->insert([
-                ['item_id' => $new_item_id, 'item_name' => $input['item_name'], 'item_image' => $item_image, 'review' => "0", 'price' => $input['price']]
+                ['id' => $new_item_id, 'item_name' => $input['item_name'], 'item_image' => $item_image, 'review' => "0", 'price' => $input['price']]
             ]);
             // sending success message if validation is success
             Session::flash('success', 'Upload successfully'); 
@@ -122,11 +263,13 @@ class ItemPageController extends Controller
             if($postDetails->user_id == Auth::user()->id){
                 $post = new Post();
                 $post->deletePost($id);
-            }else{
+            }else
+            {
                 $data = "This isn't your post to delete";
                 return view('error')->withdata($data);
             }
-        }else{
+        }else
+        {
             return redirect()->route('deleteError');
         }
         //takes you to the previous page

@@ -21,7 +21,7 @@
                                     @foreach($data as $item)
                                         <tr> 
                                             <td>
-                                                <b><a href=/item/{{$item->item_id}}>{{$item->item_name}}</a><b>
+                                                <b><a href=/item/{{$item->id}}>{{$item->item_name}}</a><b>
                                             </td>
                                             <td class="text-right">
                                                 <p>

@@ -21,7 +21,7 @@
                                             ?>
                                             <tr> 
                                                 <td>
-                                                    <b><a href=/item/{{$cart_item->item_id}} >{{$cart_item->item_name}}</a><b> x{{$quantity}}
+                                                    <b><a href=/item/{{$cart_item->id}} >{{$cart_item->item_name}}</a><b> x{{$quantity}}
                                                 </td>
                                                 <td>
                                                     <?php 

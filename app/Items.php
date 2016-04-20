@@ -22,7 +22,7 @@ class Items extends Model
     public function show_item_with_id($id){
         $data = $query = DB::table('items')
             ->select('*')
-            ->where('item_id', '=', $id)
+            ->where('id', '=', $id)
             ->first();
         return $data;
     }

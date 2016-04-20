@@ -11,6 +11,7 @@ use Auth;
 use DB;
 use Session;
 use PDF;
+use URL;
 
 use App\Items as Item;
 
@@ -46,7 +47,7 @@ class CartController extends Controller
             foreach(Session::get('cart') as $cart_item)
             {
                 $item_id = $cart_item['0']; 
-                $item_data = Item::where('item_id', '=', $item_id)->first();
+                $item_data = Item::where('id', '=', $item_id)->first();
 
                 $data[] = $item_data;
             }
@@ -57,26 +58,41 @@ class CartController extends Controller
 
     public function add_to_cart(Request $request)
     {
+
+        $item_id = $request->input('item_id');
+        $quantity = $request->input('quantity');
+
+        // //check if there is enough quantity of items
+        // $item_info = $item::where('items.id', '=', $item_id)->first();
+        // if($item_info->item_quantity == 0)
+        // {  
+        //     Session::flash('error', '');
+        //     return Redirect::to('mycart');
+        // }
+
+
     	//if cart exists in session
-    	if ($request->session()->has('cart')) 
+    	if (Session::has('cart')) 
     	{
     		$cart = session('cart');
-
-			$item_id = $request->input('item_id');
-			$quantity = $request->input('quantity');
 			$new_item_in_cart = array([$item_id,$quantity]);
 			//merge to cart
 			$cart = array_merge($cart, $new_item_in_cart);
 			var_dump($cart);
-    		$request->session()->put('cart', $cart);
+    		Session::put('cart', $cart);
 		}else{
-			$item_id = $request->input('item_id');
-			$quantity = $request->input('quantity');
 			$cart = array([$item_id,$quantity]);
 			var_dump($cart);
-    		$request->session()->put('cart', $cart);
+    		Session::put('cart', $cart);
 		}
-        return Redirect::to('mycart');
+        $item = new Item();
+        //get item
+        $item_info = $item::where('items.id', '=', $item_id)->first();
+        //take away 1 from quantity
+        $item_info->item_quantity = ($item_info->item_quantity)-$quantity;
+        //save details
+        $item_info->save();
+        return Redirect::to(URL::previous());
     }
 
     public function cart_delete_item($item_id)
@@ -84,6 +100,7 @@ class CartController extends Controller
     	if (Session::has('cart')) 
     	{
     		$cart = session('cart');
+            $cart_item = $cart[$item_id];
     		//remove element from index
     		unset($cart[$item_id]);
     		//reset index if cart exists
@@ -95,6 +112,15 @@ class CartController extends Controller
                 //remove old array and insert new one to session
                 Session::forget('cart');
                 Session::put('cart', $new_cart);
+
+                //add item back (from when it decremented when added to cart)
+                $item = new Item();
+                //get item
+                $item_info = $item::where('items.id', '=', $cart_item[0])->first();
+                //add same number of items you added to cart
+                $item_info->item_quantity = ($item_info->item_quantity)+$cart_item[1];
+                //save details
+                $item_info->save();
             }else
             {
                 Session::forget('cart');
