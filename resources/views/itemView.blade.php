@@ -15,10 +15,11 @@
                             <img src="/site_images/no image.png" alt="no image" width="300" height="300">
                         @endif
                         <h3>£{{$data->price}}</h3>
-                        <p>Review: 
+                        <p>Rating: 
                         @if($data->rating != "0.00")
+                            <b>{{$data->rating}}/5</b> from <b>{{$ratings}}</b> votes
                         @else
-                            -- No score --
+                            -- No rating --
                         @endif
                         </p>
                         @if($data->item_quantity != 0)

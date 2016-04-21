@@ -25,10 +25,10 @@
                                             </td>
                                             <td class="text-right">
                                                 <p>
-                                                    @if(!$item->review == 0)
-                                                    {{$item->review}}/10
+                                                    @if($item->rating != "0.00")
+                                                        {{$item->rating}}/5
                                                     @else
-                                                    No score
+                                                        -- No rating --
                                                     @endif
                                                 </p>
                                             </td>

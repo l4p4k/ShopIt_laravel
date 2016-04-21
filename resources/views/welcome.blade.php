@@ -19,7 +19,7 @@
                                 <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="price"><input type="hidden" name="order" value="asc"><input type="submit" value="Lowest price"></form></td>
                                 <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="price"><input type="hidden" name="order" value="desc"><input type="submit" value="Highest price"></form></td>
                             </tr><tr>
-                                <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="review"><input type="hidden" name="order" value="desc"><input type="submit" value="Best review"></form></td>
+                                <td><form method="GET" action="{{ route('index') }}"><input type="hidden" name="filter" value="rating"><input type="hidden" name="order" value="desc"><input type="submit" value="Best rating"></form></td>
                             </tr>
                         </tbody>
                     </table>
@@ -30,7 +30,7 @@
                                     <th></th>
                                     <th>Item</th> 
                                     <th>Price</th> 
-                                    <th>Review</th> 
+                                    <th>Rating</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,10 +55,10 @@
                                         </td> 
                                         <!-- item review out of 10 -->
                                         <td>
-                                            @if(!$item->rating == 0)
-                                            {{$item->rating}}/5
+                                            @if($item->rating != "0.00")
+                                                {{$item->rating}}/5
                                             @else
-                                            No score
+                                                -- No rating --
                                             @endif
                                         </td> 
                                     </tr>

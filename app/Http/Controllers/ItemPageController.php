@@ -38,8 +38,8 @@ class ItemPageController extends Controller
     {
         $item = new Item();
         $data = $item->show_item_with_id($id);
-        //initialise rating as null
-        $item_rating = null;
+        $rating = new Rating();
+        $item_rating_count = $rating->get_item_rating_count($id);
 
         if(!Auth::guest())
         {
@@ -60,11 +60,9 @@ class ItemPageController extends Controller
             {
                 Session::put('bought', $if_bought);
             } 
-            $rating = new Rating();
-            $item_rating_count = $rating->get_item_rating_count($id);
             return view('itemView')->withdata($data)->with('ratings', $item_rating_count); 
         }
-        return view('itemView')->withdata($data)->with('ratings', $item_rating); ;
+        return view('itemView')->withdata($data)->with('ratings', $item_rating_count); ;
     }
 
     public function rate(Request $request)
