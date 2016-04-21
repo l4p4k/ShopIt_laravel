@@ -108,5 +108,12 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'cart.add'
     ]);
 
+    Route::get('/error', [
+        'as' => 'error',
+        function () {
+        $data = "Well this was unexpected!";
+        return view('error')->withdata($data);
+    }]);
+
 });
 

@@ -44,7 +44,7 @@
                                     </tbody>
                                 </table>
                                 <a href='/delete_cart' class='btn btn-danger'>Delete cart</a>
-                                <a href=/checkout class='btn btn-info'>Checkout</a>
+                                <a href=/checkout class='btn btn-info' target="_blank">Checkout</a>
                             </div>
                         @endif
                     @else

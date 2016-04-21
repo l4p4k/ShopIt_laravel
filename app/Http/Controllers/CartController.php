@@ -120,6 +120,7 @@ class CartController extends Controller
         }else
         {
             $my_cart = null;
+            return $this->refresh();
         }
         $data = [
             'code' => $this->generateRandomString(),
@@ -130,6 +131,7 @@ class CartController extends Controller
         $item = new Item();
         if($data != null)
         {
+            //loop through and check if all stock is there
             foreach ($data['cart_details'] as $key => $item) 
             {
                 //get 1 item from cart (find from database)
@@ -137,7 +139,41 @@ class CartController extends Controller
                 //get quantity bought of that item
                 $cart = Session::get('cart');
                 $quantity = $my_cart[$key]['1'];
-                //take away from quantity the amount you bought
+                //check if stock of item is not 0
+                if($item_info->item_quantity == 0)
+                {
+                    $message = "There are no '".$item_info->item_name. "' left so it was removed from your cart";
+                    //remove item from cart using $key of foreach loop
+                    $cart_item = $cart[$key];
+                    //remove element from index
+                    unset($cart[$key]);
+                    //reset index if cart exists
+                    if(isset($cart))
+                    {
+                        //make new cart with old values
+                        $new_cart = array_values($cart);
+
+                        //remove old array and insert new one to session
+                        Session::forget('cart');
+                        Session::put('cart', $new_cart);
+                    }else
+                    {
+                        Session::forget('cart');
+                    }
+                    return view('error')->withdata($message);
+                }
+
+            }
+            //now take away from stock the amount you bought
+            foreach ($data['cart_details'] as $key => $item) 
+            {
+                //get 1 item from cart (find from database)
+                $item_info = $item::where('items.id', '=', $item->id)->first();
+                //get quantity bought of that item
+                $cart = Session::get('cart');
+                $quantity = $my_cart[$key]['1'];
+
+                //take away from quantity
                 $item_info->item_quantity = ($item_info->item_quantity)-$quantity;
                 //save details
                 $item_info->save();
@@ -147,6 +183,11 @@ class CartController extends Controller
         $pdf = PDF::loadView('receipt', $data);
         Session::forget('cart');
         return $pdf->stream();
+    }
+
+    public function refresh()
+    {
+        return Redirect::back();
     }
 
     /**
