@@ -60,16 +60,11 @@ class ItemPageController extends Controller
             {
                 Session::put('bought', $if_bought);
             } 
-            $item_rating = $this->get_item_rating($id);
-            return view('itemView')->withdata($data)->with('rating', $item_rating); 
+            $rating = new Rating();
+            $item_rating_count = $rating->get_item_rating_count($id);
+            return view('itemView')->withdata($data)->with('ratings', $item_rating_count); 
         }
-        return view('itemView')->withdata($data)->with('rating', $item_rating); ;
-    }
-
-    public function get_item_rating($item_id)
-    {
-        $rating = new Rating();
-        return $rating->get_item_rating($item_id);
+        return view('itemView')->withdata($data)->with('ratings', $item_rating); ;
     }
 
     public function rate(Request $request)
@@ -89,9 +84,10 @@ class ItemPageController extends Controller
                 ]);
 
                 $rating = new Rating();
-                $item_rating = $this->get_item_rating($item_id);
-                // return $item_id." ".$item_rating[0];
-                $rating->update_item_rating($item_id, $item_rating[0]);
+                //get average rating
+                $avg_rating = $rating->avg_rating($item_id);
+                //update items.rating column
+                $rating->update_item_rating($item_id, $avg_rating);
                 return Redirect::to(URL::previous());
             }else
             {

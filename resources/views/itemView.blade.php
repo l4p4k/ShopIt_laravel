@@ -17,7 +17,6 @@
                         <h3>£{{$data->price}}</h3>
                         <p>Review: 
                         @if($data->rating != "0.00")
-                            {{$data->rating}}/5 from {{$rating[1]}} votes
                         @else
                             -- No score --
                         @endif

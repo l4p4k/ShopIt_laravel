@@ -10,22 +10,29 @@ class rating extends Model
 {
     protected $table = "items";
 
-    public function get_item_rating($item_id)
+    //get number of user ratings
+    public function get_item_rating_count($item_id)
     {
-        $avg_query = DB::table('rating')
-            ->select('rating.*')
-            ->where('rating.item_id', '=', $item_id)
-            ->avg('rating');
-
-        $sum_query = DB::table('rating')
+        $query = DB::table('rating')
             ->select('rating.*')
             ->where('rating.item_id', '=', $item_id)
             ->count();
 
-           $query = [number_format((float)$avg_query, 2, '.', ''),$sum_query];
         return $query;
     }
 
+    //average out ratings from users
+    public function avg_rating($item_id)
+    {
+        $query = DB::table('rating')
+            ->select('rating.*')
+            ->where('rating.item_id', '=', $item_id)
+            ->avg('rating');
+
+        return number_format((float)$query, 2, '.', '');
+    }
+
+    //update item.rating column
     public function update_item_rating($item_id, $item_rating)
     {
         //get item
