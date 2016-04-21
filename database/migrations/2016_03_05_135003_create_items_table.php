@@ -16,7 +16,7 @@ class CreateItemsTable extends Migration
             $table->increments('item_id')->unique();
             $table->string('item_name');
             $table->integer('item_image');
-            $table->integer('review');
+            $table->integer('rating');
             $table->integer('item_quantity');
             $table->decimal('price', 6, 2);
         });

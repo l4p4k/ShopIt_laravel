@@ -14,6 +14,7 @@ use URL;
 use Illuminate\Support\Facades\Input as Input;
 use App\Items as Item;
 use App\Item_bought as Bought;
+use App\rating as Rating;
 
 class ItemPageController extends Controller
 {
@@ -37,26 +38,38 @@ class ItemPageController extends Controller
     {
         $item = new Item();
         $data = $item->show_item_with_id($id);
+        //initialise rating as null
+        $item_rating = null;
+
         if(!Auth::guest())
         {
             $bought = new Bought();
-            $if_bought = $bought->has_bought(Auth::user()->id,$id);
+            $user_id = Auth::user()->id;
+            $if_bought = $bought->has_bought($user_id,$id);
 
-            $can_rate = $bought->can_rate(Auth::user()->id, $id);
+            $can_rate = $bought->can_rate($user_id, $id);
+            //clear sessions (for quick refresh)
             Session::forget('rating'); 
             Session::forget('bought'); 
             if($can_rate != null)
             {
-                $item_rating = $can_rate->rating;
-                Session::put('rating', $item_rating); 
+                $user_rating = $can_rate->rating;
+                Session::put('rating', $user_rating); 
             }
             if($if_bought != null)
             {
                 Session::put('bought', $if_bought);
             } 
-            return view('itemView')->withdata($data); 
+            $item_rating = $this->get_item_rating($id);
+            return view('itemView')->withdata($data)->with('rating', $item_rating); 
         }
-        return view('itemView')->withdata($data);
+        return view('itemView')->withdata($data)->with('rating', $item_rating); ;
+    }
+
+    public function get_item_rating($item_id)
+    {
+        $rating = new Rating();
+        return $rating->get_item_rating($item_id);
     }
 
     public function rate(Request $request)
@@ -65,14 +78,20 @@ class ItemPageController extends Controller
         if(!Auth::guest()){  
             $user_id = Auth::user()->id;
             $item_id = $request->input('item_id');
-            $rating = $request->input('rating');
+            $my_rating = $request->input('rating');
 
             $bought = new Bought();
             if($bought->can_rate($user_id, $item_id) == null)
-            {
+            {   
+
                 DB::table('rating')->insert([
-                    ['user_id' => Auth::user()->id, 'item_id' => $item_id, 'rating' => $rating]
+                    ['user_id' => Auth::user()->id, 'item_id' => $item_id, 'rating' => $my_rating]
                 ]);
+
+                $rating = new Rating();
+                $item_rating = $this->get_item_rating($item_id);
+                // return $item_id." ".$item_rating[0];
+                $rating->update_item_rating($item_id, $item_rating[0]);
                 return Redirect::to(URL::previous());
             }else
             {

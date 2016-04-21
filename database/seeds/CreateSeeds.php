@@ -20,7 +20,7 @@ class CreateSeeds extends Seeder
         	DB::table('items')->insert([
         		'item_name' => $faker->word." ".$faker->word,
                 'item_image' => "0",
-        		'review' => $faker->numberBetween(1,10),
+        		'rating' => "0",
                 'item_quantity' => $faker->numberBetween(1,40),
         		'price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999)
         	]);

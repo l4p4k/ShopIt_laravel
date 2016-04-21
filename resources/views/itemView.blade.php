@@ -16,8 +16,8 @@
                         @endif
                         <h3>£{{$data->price}}</h3>
                         <p>Review: 
-                        @if(!$data->review == 0)
-                            {{$data->review}}/10
+                        @if($rating[0] != "0.00")
+                            {{$rating[0]}}/5 from {{$rating[1]}} votes
                         @else
                             -- No score --
                         @endif
@@ -64,9 +64,11 @@
                                         <label class="control-label">Rate this item:</label>
 
                                         <select name="rating">
-                                            <?php foreach(range(1,5) as $value){ ?>
-                                            <option value="{{$value}}">{{$value}}</option>
-                                            <?php } ?>
+                                            <option value=5>Awesome!</option>
+                                            <option value=4>Good</option>
+                                            <option value=3>Ok!</option>
+                                            <option value=2>Bad</option>
+                                            <option value=1>Very bad!</option>
                                         </select>
 
                                         @if($errors->has('quantity'))
