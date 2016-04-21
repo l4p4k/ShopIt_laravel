@@ -50,6 +50,47 @@
                         @endif
                     </div>
                 </div>
+
+                <!-- user can rate if they have bought item before -->
+                @if(Session::has('bought'))
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Rate</div>
+
+                        <div class="panel-body">
+                            @if(!Session::has('rating'))
+                                <form class="form-inline" role="form" method="post" action="{{ url('/rate') }}">
+                                    {!! csrf_field() !!}
+                                    <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
+                                        <label class="control-label">Rate this item:</label>
+
+                                        <select name="rating">
+                                            <?php foreach(range(1,5) as $value){ ?>
+                                            <option value="{{$value}}">{{$value}}</option>
+                                            <?php } ?>
+                                        </select>
+
+                                        @if($errors->has('quantity'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('quantity') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <input type="hidden" name="item_id" value="{{$data->id}}">
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn">
+                                            Rate
+                                        </button>
+                                    </div>
+                                </form>
+                            @else
+                                <p><i>You have rated {{Session::get('rating')}}</i></p>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
                 <!-- Admin tools to change the item -->
                 @if(!Auth::guest())
                     @if(Auth::user()->admin == 1)

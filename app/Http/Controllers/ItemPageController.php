@@ -13,6 +13,7 @@ use URL;
 
 use Illuminate\Support\Facades\Input as Input;
 use App\Items as Item;
+use App\Item_bought as Bought;
 
 class ItemPageController extends Controller
 {
@@ -36,7 +37,52 @@ class ItemPageController extends Controller
     {
         $item = new Item();
         $data = $item->show_item_with_id($id);
+        if(!Auth::guest())
+        {
+            $bought = new Bought();
+            $if_bought = $bought->has_bought(Auth::user()->id,$id);
+
+            $can_rate = $bought->can_rate(Auth::user()->id, $id);
+            Session::forget('rating'); 
+            Session::forget('bought'); 
+            if($can_rate != null)
+            {
+                $item_rating = $can_rate->rating;
+                Session::put('rating', $item_rating); 
+            }
+            if($if_bought != null)
+            {
+                Session::put('bought', $if_bought);
+            } 
+            return view('itemView')->withdata($data); 
+        }
         return view('itemView')->withdata($data);
+    }
+
+    public function rate(Request $request)
+    {
+        //get data from post
+        if(!Auth::guest()){  
+            $user_id = Auth::user()->id;
+            $item_id = $request->input('item_id');
+            $rating = $request->input('rating');
+
+            $bought = new Bought();
+            if($bought->can_rate($user_id, $item_id) == null)
+            {
+                DB::table('rating')->insert([
+                    ['user_id' => Auth::user()->id, 'item_id' => $item_id, 'rating' => $rating]
+                ]);
+                return Redirect::to(URL::previous());
+            }else
+            {
+                return Redirect::to('error');
+            }
+
+        }else
+        {
+            return Redirect::to('error');
+        }
     }
 
     public function add_stock(Request $request)

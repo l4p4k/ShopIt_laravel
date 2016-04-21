@@ -81,6 +81,11 @@ Route::group(['middleware' => 'web'], function ()
         'as' => 'item.delete',
         function ($item_id = '0') {
     }]);
+    
+    Route::post('/rate', [
+        'uses' => 'ItemPageController@rate',
+        'as' => 'item.rate'
+    ]);
 
     Route::get('/mycart', [
         'uses' => 'CartController@mycart',
