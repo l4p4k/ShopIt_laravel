@@ -13,6 +13,7 @@ class ItemBought extends Migration
     public function up()
     {
         Schema::create('item_bought', function (Blueprint $table) {
+            $table->increments('id')->unique();
             $table->integer('user_id');
             $table->integer('item_id');
             $table->integer('buy_quantity');

@@ -14,6 +14,7 @@ use PDF;
 use URL;
 
 use App\Items as Item;
+use App\Items_bought as Bought;
 
 class CartController extends Controller
 {
@@ -129,7 +130,7 @@ class CartController extends Controller
         ];
 
         $item = new Item();
-        if($data != null)
+        if(($data != null) and (!Auth::guest()))
         {
             //loop through and check if all stock is there
             foreach ($data['cart_details'] as $key => $item) 
@@ -137,7 +138,7 @@ class CartController extends Controller
                 //get 1 item from cart (find from database)
                 $item_info = $item::where('items.id', '=', $item->id)->first();
                 //get quantity bought of that item
-                $cart = Session::get('cart');
+                $cart = $data['my_cart'];
                 $quantity = $my_cart[$key]['1'];
                 //check if stock of item is not 0
                 if($item_info->item_quantity == 0)
@@ -170,19 +171,24 @@ class CartController extends Controller
                 //get 1 item from cart (find from database)
                 $item_info = $item::where('items.id', '=', $item->id)->first();
                 //get quantity bought of that item
-                $cart = Session::get('cart');
+                $cart = $data['my_cart'];
                 $quantity = $my_cart[$key]['1'];
 
+                DB::table('item_bought')->insert([
+                    ['user_id' => Auth::user()->id, 'item_id' => $item->id, 'buy_quantity' => $quantity]
+                ]);
                 //take away from quantity
                 $item_info->item_quantity = ($item_info->item_quantity)-$quantity;
                 //save details
                 $item_info->save();
             }
+            $pdf = PDF::loadView('receipt', $data);
+            Session::forget('cart');
+            return $pdf->stream();
+        }else
+        {//if no data is present
+            return Redirect::to('error');
         }
-
-        $pdf = PDF::loadView('receipt', $data);
-        Session::forget('cart');
-        return $pdf->stream();
     }
 
     public function refresh()
