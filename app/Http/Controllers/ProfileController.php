@@ -40,12 +40,14 @@ class ProfileController extends Controller
         $data = array(
             "phone" => $request->input('phone'),
             "postcode" => $request->input('postcode'),
+            "email" => $request->input('email')
         );
 
         // Build the validation rules.
         $rules = array(
             'phone'     => 'string|size:11',
             'postcode'  => array('Regex:/(^[A-Z]{1,2}[0-9R][0-9A-Z]?[\s]?[0-9][ABD-HJLNP-UW-Z]{2}$)/'),
+            'email'     => 'required|email'
         );
 
         // Create a new validator instance.
@@ -66,6 +68,10 @@ class ProfileController extends Controller
 
             if($data['phone'] != $userInfo->phone){
                 $userInfo->phone = $data['phone'];   
+            }
+
+            if($data['email'] != $userInfo->email){
+                $userInfo->email = $data['email'];   
             }
 
             if($data['postcode'] != $userInfo->postcode){ 
