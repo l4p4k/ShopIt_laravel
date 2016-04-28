@@ -30,53 +30,69 @@ class ItemPageController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the item page.
      *
-     * @return \Illuminate\Http\Response
      */
     public function item_page($id)
     {
         $item = new Item();
+        //get details of item with id
         $data = $item->show_item_with_id($id);
         $rating = new Rating();
+        //get rating of item
         $item_rating_count = $rating->get_item_rating_count($id);
 
+        //if user is not guest
         if(!Auth::guest())
         {
             $bought = new Bought();
+            //get user id
             $user_id = Auth::user()->id;
+            //check if user has bought item before
             $if_bought = $bought->has_bought($user_id,$id);
-
+            //check if user can rate
             $can_rate = $bought->can_rate($user_id, $id);
             //clear sessions (for quick refresh)
             Session::forget('rating'); 
             Session::forget('bought'); 
+            //if user has rated
             if($can_rate != null)
             {
+                //put rating of user into session
                 $user_rating = $can_rate->rating;
                 Session::put('rating', $user_rating); 
             }
+            //if user has bought item before
             if($if_bought != null)
             {
+                //put true/false if user has bought item before
                 Session::put('bought', $if_bought);
             } 
+            //show itempage with ratings
             return view('itemView')->withdata($data)->with('ratings', $item_rating_count); 
         }
+        //show itempage with ratings
         return view('itemView')->withdata($data)->with('ratings', $item_rating_count); ;
     }
 
+    /**
+    * Rate a product
+    */
     public function rate(Request $request)
     {
-        //get data from post
+        //if user is not guest
         if(!Auth::guest()){  
+            //get user id
             $user_id = Auth::user()->id;
+            //get data from post
             $item_id = $request->input('item_id');
             $my_rating = $request->input('rating');
 
             $bought = new Bought();
+            //check if user has not rated item
             if($bought->can_rate($user_id, $item_id) == null)
             {   
-
+                //insert user's rating
                 DB::table('rating')->insert([
                     ['user_id' => Auth::user()->id, 'item_id' => $item_id, 'rating' => $my_rating]
                 ]);
@@ -86,9 +102,10 @@ class ItemPageController extends Controller
                 $avg_rating = $rating->avg_rating($item_id);
                 //update items.rating column
                 $rating->update_item_rating($item_id, $avg_rating);
+                //refresh
                 return Redirect::to(URL::previous());
             }else
-            {
+            {//show error page if user has rated
                 return Redirect::to('error');
             }
 
@@ -98,6 +115,9 @@ class ItemPageController extends Controller
         }
     }
 
+    /**
+    * Add more stock
+    */
     public function add_stock(Request $request)
     {
         $item = new Item();
@@ -136,9 +156,13 @@ class ItemPageController extends Controller
         }//end of validator check
     }
 
+    /**
+    * Change details of an item.
+    */
     public function change_item(Request $request)
     {
         $item = new Item();
+        //get input from form
         $change_type = $request->input('change_type');
 
         //if image needs changing
@@ -242,6 +266,9 @@ class ItemPageController extends Controller
         }
     }
 
+    /**
+    * Make a new item
+    */
     public function new_item(Request $request)
     {
         $item = new Item();
@@ -298,7 +325,7 @@ class ItemPageController extends Controller
                 }
             }
 
-
+            //insert data to database
             DB::table('items')->insert([
                 ['id' => $new_item_id, 'item_name' => $input['item_name'], 'item_image' => $item_image, 'review' => "0", 'price' => $input['price']]
             ]);
@@ -309,29 +336,18 @@ class ItemPageController extends Controller
         }//end of validator check
     }
 
+    /**
+    * Delete an item from the shop
+    */
     public function item_delete($item_id)
     {
         $item = new Item();
-
+        //if user is admin
         if(Auth::user()->admin == "1")
         {
-            $item->delete($item_id);
+            //delete that item
+            DB::table('items')->where('id', '=', $item_id)->delete();
         }
-        $postDetails = $item->showPost($id);
-        if($postDetails != null){
-            if($postDetails->user_id == Auth::user()->id){
-                $post = new Post();
-                $post->deletePost($id);
-            }else
-            {
-                $data = "This isn't your post to delete";
-                return view('error')->withdata($data);
-            }
-        }else
-        {
-            return redirect()->route('deleteError');
-        }
-        //takes you to the previous page
-        return Redirect::to(URL::previous());
+        return Redirect::to('admindash');
     }
 }

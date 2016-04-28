@@ -25,14 +25,6 @@ class item_bought extends Model
             {
                 return true;
             }
-
-    	// $data = $query = DB::table('rating')
-     //        ->join('item_bought', 'rating.item_id', '=', 'item_bought.user_id')
-    	// 	->select('item_bought.id AS item_bought_id', 'item_bought.item_id', 'item_bought.buy_quantity', 'rating.review')
-    	// 	->where('user_id','=',$user_id)
-    	// 	->where('item_id','=',$item_id)
-    	// 	->first();
-    	// return $data;
     }
 
     public function can_rate($user_id, $item_id)

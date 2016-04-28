@@ -76,16 +76,16 @@ Route::group(['middleware' => 'web'], function ()
         'uses' => 'ItemPageController@add_stock',
         'as' => 'add_stock'
     ], ['middleware' => 'admin']);
-    //view an item's page
-    Route::get('/item/{item_id}', [
-        'uses' => 'ItemPageController@item_page',
-        'as' => 'item.view',
-        function ($item_id = '0') {
-    }]);
     //delete an item with id
     Route::get('/item_delete/{item_id}', [
         'uses' => 'ItemPageController@item_delete',
         'as' => 'item.delete',
+        function ($item_id = '0') {
+    }], ['middleware' => 'admin']);
+    //view an item's page
+    Route::get('/item/{item_id}', [
+        'uses' => 'ItemPageController@item_page',
+        'as' => 'item.view',
         function ($item_id = '0') {
     }]);
     //rate an item once bought

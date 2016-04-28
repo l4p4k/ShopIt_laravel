@@ -43,5 +43,4 @@ class Items extends Model
 
         return [$query_page, $search_result];
     }
-
 }
