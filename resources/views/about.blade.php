@@ -8,7 +8,11 @@
                 <div class="panel-heading">About</div>
 
                 <div class="panel-body">
-                    This is the about page
+                    <p>For queries about any of our online or instore services, you can write to us at:</p>
+                    <p>Shop it! Customer Service Centre</p>
+                    <p>Baird Avenue</p>
+                    <p>Dundee</p>
+                    <p>DD1 9NF</p>
                 </div>
             </div>
         </div>

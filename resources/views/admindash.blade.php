@@ -65,9 +65,17 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Stats</div>
+                <div class="panel-body">
+                    
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

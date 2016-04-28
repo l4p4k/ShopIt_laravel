@@ -14,7 +14,8 @@ class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
+     * only admins can open admin dashboard
+     * guests can open about page
      * @return void
      */
     public function __construct()

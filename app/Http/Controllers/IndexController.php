@@ -27,9 +27,8 @@ class IndexController extends Controller
     }
 
 	/**
-	* Show the application dashboard.
+	* Show the index page.
 	*
-	* @return \Illuminate\Http\Response
 	*/
 	public function index()
     {
@@ -38,6 +37,9 @@ class IndexController extends Controller
         return view('welcome')->withdata($data);
     }
 
+    /**
+    * Filter items on the page
+    */
     public function indexFilter(Request $request)
     {
     	$item = new Item();
@@ -52,7 +54,9 @@ class IndexController extends Controller
         }
     }
 
-    //WIP-- searches for items with that keyword in name --WIP
+    /**
+    * search for an item using keyword
+    */
     public function search(Request $request)
     {   $item = new Item();
         // Get data
@@ -78,9 +82,11 @@ class IndexController extends Controller
         // If the data passes validation
         if ($validator->passes()) 
         {
+            //search for item with keyword
             $data = $item->search('item_name', $input_data['search']);
+            //get number of results found
             $result_count = count($data[0]);
-            // var_dump($data);
+            // show results page
             return view('results')
             ->with('data', $data[0])
             ->with('result_count', $data[1]);
