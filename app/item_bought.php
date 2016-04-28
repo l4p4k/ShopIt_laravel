@@ -48,6 +48,12 @@ class item_bought extends Model
 
     public function user_bought($user_id)
     {
-        
+        $data = $query = DB::table('item_bought')
+            ->join('items', 'item_bought.item_id', '=', 'items.id')
+            ->select('item_bought.id AS bought_id','item_bought.buy_quantity AS quantity','items.*')
+            ->orderBy('id', 'ASC')
+            ->where('user_id','=',$user_id)
+            ->get();
+        return $data;
     }
 }

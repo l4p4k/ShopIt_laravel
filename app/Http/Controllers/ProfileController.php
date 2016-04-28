@@ -10,6 +10,7 @@ use Validator;
 use Session;
 
 use App\User as User;
+use App\item_bought as Bought;
 
 class ProfileController extends Controller
 {
@@ -32,7 +33,11 @@ class ProfileController extends Controller
         $loggedUser = new User();
         $yourUserID = Auth::user()->id;
         $data[0] = $loggedUser->getLoggedUser($yourUserID);
+
+        $bought = new Bought();
+        $data[1] = $bought->user_bought($yourUserID);
         return view('profile')->withdata($data);
+
     }
 
 	public function editProfile(Request $request){

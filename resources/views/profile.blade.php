@@ -94,6 +94,33 @@
                     </form>
                 </div>
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Items bought</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th> 
+                                    <th>Price</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($data[1] as $item)
+                                    <tr>
+                                        <td><a href=/item/{{$item->id}}>{{$item->item_name}}</a></td>
+                                        <td>{{$item->quantity}}</td>
+                                        <td>£{{$item->price}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
