@@ -45,4 +45,9 @@ class item_bought extends Model
          ->first();
         return $data;
     }
+
+    public function user_bought($user_id)
+    {
+        
+    }
 }

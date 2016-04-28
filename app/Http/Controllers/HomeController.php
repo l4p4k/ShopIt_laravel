@@ -6,11 +6,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
+use Auth;
 use DB;
 use Session;
-
-
-
 
 class HomeController extends Controller
 {
@@ -24,16 +22,6 @@ class HomeController extends Controller
         // ini_set('xdebug.max_nesting_level', 200);
         $this->middleware('auth', ['except' => 'about']);
         $this->middleware('admin', ['only' => 'admindash']);
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function profile()
-    {
-        return view('profile');
     }
 
     public function about()

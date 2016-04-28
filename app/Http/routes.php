@@ -46,8 +46,13 @@ Route::group(['middleware' => 'web'], function ()
     ]);
 
     Route::get('/profile', [
-        'uses' => 'HomeController@profile',
+        'uses' => 'ProfileController@profile',
         'as' => 'profile'
+    ]);
+
+    Route::post('/editProfile', [
+        'uses' => 'ProfileController@editProfile',
+        'as' => 'profile.edit'
     ]);
 
     Route::get('/admindash', [
