@@ -193,33 +193,31 @@
                                         </div>
                                     </div>
                                 </form>
-                                @if($data->item_quantity == 0)
-                                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/add_stock') }}">
-                                        {!! csrf_field() !!}
-                                        <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
-                                            <label class="col-md-4 control-label">Amount</label>
+                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/add_stock') }}">
+                                    {!! csrf_field() !!}
+                                    <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
+                                        <label class="col-md-4 control-label">Amount</label>
 
-                                            <div class="col-md-6">
-                                                <input type="text" class="form-control" name="quantity" value="{{ old('quantity') }}">
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="quantity" value="{{ old('quantity') }}">
 
-                                                @if ($errors->has('quantity'))
-                                                    <span class="help-block">
-                                                        <strong>{{ $errors->first('quantity') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
+                                            @if ($errors->has('quantity'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('quantity') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
+                                    </div>
 
-                                        <input type="hidden" name="item_id" value="{{$data->id}}">
+                                    <input type="hidden" name="item_id" value="{{$data->id}}">
 
-                                        <div class="form-group">
-                                            <div class="col-md-6 col-md-offset-4">
-                                                <button type="submit" class="btn btn-primary">Add stock
-                                                </button>
-                                            </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-4">
+                                            <button type="submit" class="btn btn-primary">Set amount of stock
+                                            </button>
                                         </div>
-                                    </form>
-                                @endif
+                                    </div>
+                                </form>
                                 <a href='/item_delete/{{$data->id}}' class='btn btn-danger'>Delete item</a>
                             </div>
                         </div>

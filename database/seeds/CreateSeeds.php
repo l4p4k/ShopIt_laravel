@@ -12,8 +12,6 @@ class CreateSeeds extends Seeder
      */
     public function run()
     {
-        DB::table('items')->delete();
-        DB::table('users')->delete();
 
         $faker = Faker::create();
         foreach (range(1,30) as $index) {
@@ -34,7 +32,7 @@ class CreateSeeds extends Seeder
             'phone'        => "",
             'house_no'     => "24",
             'postcode'     => "WF17 7ND",
-            'password'     => bcrypt('poop123')
+            'password'     => bcrypt('mypassword')
         ]);
 
         foreach (range(1,10) as $index) {
@@ -48,7 +46,7 @@ class CreateSeeds extends Seeder
                 'phone'        => "07".$faker->numberBetween(100000000, 999999999),
                 'house_no'     => $faker->numberBetween(1,200),
                 'postcode'     => $faker->postcode(),
-                'password'     => bcrypt('poop123')
+                'password'     => bcrypt('mypassword')
             ]);
         }
     }
