@@ -85,7 +85,7 @@
                             <tbody>
                                 @foreach($lowest_rated as $rate)
                                     <tr>
-                                        <td><a href=/rate/{{$rate->id}}>{{$rate->item_name}}</a></td>
+                                        <td><a href=/item/{{$rate->id}}>{{$rate->item_name}}</a></td>
                                         <td>£{{$rate->price}}</td>
                                         <td>{{$rate->rating}}/5</td>
                                     </tr>
@@ -106,7 +106,7 @@
                             <tbody>
                                 @foreach($lowest_stock as $stock)
                                     <tr>
-                                        <td><a href=/stock/{{$stock->id}}>{{$stock->item_name}}</a></td>
+                                        <td><a href=/item/{{$stock->id}}>{{$stock->item_name}}</a></td>
                                         <td>£{{$stock->price}}</td>
                                         <td>{{$stock->item_quantity}}</td>
                                     </tr>
@@ -126,7 +126,7 @@
                             <tbody>
                                 @foreach($most_bulk as $bulk_buy)
                                     <tr>
-                                        <td><a href=/bulk_buy/{{$bulk_buy->id}}>{{$bulk_buy->item_name}}</a></td>
+                                        <td><a href=/item/{{$bulk_buy->id}}>{{$bulk_buy->item_name}}</a></td>
                                         <td>{{$bulk_buy->quantity}}</td>
                                         <td>{{$bulk_buy->item_quantity}}</td>
                                     </tr>
