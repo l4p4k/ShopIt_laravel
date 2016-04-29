@@ -43,9 +43,10 @@ Route::group(['middleware' => 'web'], function ()
     ]);
     //the about page
     Route::get('/about', [
-        'uses' => 'HomeController@about',
-        'as' => 'about'
-    ]);
+        'as' => 'about',
+        function () {
+        return view('about');
+    }]);
     //your personal profile
     Route::get('/profile', [
         'uses' => 'ProfileController@profile',

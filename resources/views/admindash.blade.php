@@ -72,7 +72,68 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Stats</div>
                 <div class="panel-body">
-                    
+                    <div class="table-responsive">
+                        <p class="text-center"><b>Lowest rated products<b></p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Price</th> 
+                                    <th>Rating</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($lowest_rated as $rate)
+                                    <tr>
+                                        <td><a href=/rate/{{$rate->id}}>{{$rate->item_name}}</a></td>
+                                        <td>£{{$rate->price}}</td>
+                                        <td>{{$rate->rating}}/5</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+
+                        <p class="text-center"><b>Lowest stocked products<b></p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Price</th> 
+                                    <th>Stock</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($lowest_stock as $stock)
+                                    <tr>
+                                        <td><a href=/stock/{{$stock->id}}>{{$stock->item_name}}</a></td>
+                                        <td>£{{$stock->price}}</td>
+                                        <td>{{$stock->item_quantity}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <p class="text-center"><b>Most bulk buys<b></p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Items bought in bulk</th> 
+                                    <th>Stock</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($most_bulk as $bulk_buy)
+                                    <tr>
+                                        <td><a href=/bulk_buy/{{$bulk_buy->id}}>{{$bulk_buy->item_name}}</a></td>
+                                        <td>{{$bulk_buy->quantity}}</td>
+                                        <td>{{$bulk_buy->item_quantity}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

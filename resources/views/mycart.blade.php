@@ -15,6 +15,7 @@
                                     <tbody>
                                         <?php $full_total = 0;?>
                                         @foreach($data as $key => $cart_item)
+                                            @if($cart_item != null)
                                             <?php 
                                             $cart = Session::get('cart');
                                             $quantity = $cart[$key]['1'];
@@ -34,6 +35,7 @@
                                                     <a href=/cart_delete_item/{{$key}} class='btn btn-danger'>x</a>
                                                 </td>
                                             </tr>
+                                            @endif
                                         @endforeach
                                             <tr>
                                                 <td></td>

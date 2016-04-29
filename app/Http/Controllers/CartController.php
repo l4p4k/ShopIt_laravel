@@ -36,6 +36,7 @@ class CartController extends Controller
     {
         //get the cart
         $data = $this->get_cart();
+        //return var_dump($data);
         return view('mycart')->withdata($data);
     }
 
