@@ -30,16 +30,21 @@ class ProfileController extends Controller
      */
     public function profile()
     {
+        //get details of user
         $loggedUser = new User();
         $yourUserID = Auth::user()->id;
         $data[0] = $loggedUser->getLoggedUser($yourUserID);
 
+        //get details of items bought by the user
         $bought = new Bought();
         $data[1] = $bought->user_bought($yourUserID);
         return view('profile')->withdata($data);
 
     }
 
+    /**
+     * Edit details on profile.
+     */
 	public function editProfile(Request $request){
           // Get data from form post
         $data = array(

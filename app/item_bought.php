@@ -27,6 +27,7 @@ class item_bought extends Model
             }
     }
 
+    //check if user can rate on a product
     public function can_rate($user_id, $item_id)
     {
         $data = $query = DB::table('rating')
@@ -38,6 +39,7 @@ class item_bought extends Model
         return $data;
     }
 
+    //get all items bought by the user
     public function user_bought($user_id)
     {
         $data = $query = DB::table('item_bought')

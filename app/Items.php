@@ -9,15 +9,16 @@ class Items extends Model
 {
     protected $table = "items";
 
+    //get all products
     public function show_all_items($filter, $order){
     	$data = $query = DB::table('items')
     		->select('items.*')
-            //if price is not review
             ->orderBy($filter, $order)
     		->paginate(10);
     	return $data;
     }
 
+    //get specific item
     public function show_item_with_id($id){
         $data = $query = DB::table('items')
             ->select('*')
@@ -26,6 +27,7 @@ class Items extends Model
         return $data;
     }
 
+    //search for an item
     public function search($column, $criteria){
         $query = DB::table('items')
             ->select('*')
